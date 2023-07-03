@@ -9,7 +9,6 @@ function getFaceImageUri(className, idx) {
 }
 
 async function fetchImage(uri) {
-    
   return (await fetch(uri)).blob()
 }
 

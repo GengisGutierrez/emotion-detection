@@ -1,13 +1,71 @@
-.page-container {
-  left: 0;
-  right: 0;
-  margin: auto;
-  margin-top: 20px;
-  padding-left: 300px;
-  display: inline-flex !important;
+body {
+  width: 100%;
+  height: 100vh;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  margin: 2em auto;
+  background: url("https://angular-tensorflow-snake.web.app/assets/images/room.jpg") left bottom no-repeat;
+  background-size: cover;
 }
 
-@media only screen and (max-width : 992px) {
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 10px;
+}
+
+header{
+  padding: 10px;
+  grid-column: 1 / 3;
+  grid-row: 1;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: .5px .5px 0 #ff66009c;
+  border-bottom: 1px solid #ffa600c7;
+}
+
+aside {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+article {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.style-aside {
+  color: #38a851 !important;
+  font-size: 20px;
+  font-weight: 600 !important;
+  
+}
+.aside-main {
+  border: 0.6vw solid #428eff;
+  box-shadow: inset 0 0 0 0.2vw #75acff;
+  background: radial-gradient(circle,#f5f9ff 0%,white 50%,#f5f9ff 100%);
+  color: #202124;
+  border-radius: 15px;
+  padding: 10px 15px 0px 15px;
+  margin-top: 20px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.style-header {
+  color: #fb0 !important;
+}
+.style-camera {
+  border: 10px solid #38a851;
+  box-shadow: inset 0 0 0 5px #4fc469;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 5px 5px 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+
+@media only screen and (max-width : 1100px) {
   .page-container {
     padding-left: 0;
     display: flex !important;
@@ -16,17 +74,26 @@
 
 #navbar {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
 }
 
-.center-content {
+/* .center-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 }
+
+.page-container {
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-top: 20px;
+  padding-left: 300px;
+  display: inline-flex !important;
+} */
 
 .side-by-side {
   display: flex;
@@ -46,7 +113,7 @@
 }
 
 .margin {
-  margin: 20px;
+  margin: 20px 20px 0 20px;
 }
 
 .button-sm {

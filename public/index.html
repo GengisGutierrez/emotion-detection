@@ -11,26 +11,41 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
 
 <!--    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.3/dist/tf.min.js"> </script>-->
+    <style>
+        #status {
+            color: #FFF;
+        }
+        .inline {
+            display: inline-block;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="navbar"></div>
-    <div class="center-content page-container">
+
+    <div class="container">
         <div class="progress" id="loader">
             <div class="indeterminate"></div>
         </div>
-        <h5 >
-            <span id="status">Detectando emociones uwu</span>
-        </h5>
-        <div style="position: relative" class="margin">
-            <video onplay="onPlay(this)" id="inputVideo" autoplay muted></video>
-            <canvas id="overlay" />
-            <canvas id='canvas' />
-        </div>
-        <h5>Aumente el tamaño de entrada para obtener una mayor precisión</h5>
-        <center style="padding:10px">
-            <div class="row input-field" style="margin-right: 20px;">
-
+        <header>
+            <h5 id="status" class="style-header">
+                Initializing the video
+            </h5>
+        </header>
+        <article>
+            <div style="position: relative;" class="margin style-camera">
+                <video onplay="onPlay(this)" id="inputVideo" autoplay muted></video>
+                <canvas id="overlay" style="margin: 0px -10px -10px 0px;"/>
+                <canvas id='canvas' />
+            </div>
+        </article>
+        
+        
+        <aside class="aside-main">
+            <p class="style-aside">¿How to play?</p>
+            <p>Try to unlock the most emotes in 10 seconds and compete with others!</p>
+            <p id="status" class="style-aside">¿Do you want to increase the challenge?</p>
+            <div class="input-field">
                 <select id="sizeType">
                     <option value="" disabled selected>Input Size:</option>
                     <option value="160">160 x 160</option>
@@ -41,51 +56,24 @@
                 </select>
                 <label>Input Size </label>
             </div>
-
-        </center>
-
-        <!--
-            <div class="row">
-                <label for="scoreThreshold">Score Threshold:</label>
-                <input disabled value="0.5" id="scoreThreshold" type="text" class="bold">
-            </div>
--->
-        <!--
-            <button class="waves-effect waves-light btn" onclick="onDecreaseThreshold()">
-                <i class="material-icons left">-</i>
-            </button>
-            <button class="waves-effect waves-light btn" onclick="onIncreaseThreshold()">
-                <i class="material-icons left">+</i>
-            </button>
---> 
-    
-        <!--
-        <div id="status">Click Image to load its model </div>
-        <div style="padding:20px" style="border:1px solid #000000;">
-            <a id="lnk" onclick="loadModel('../../weights/mobilenetV1_models/model.json')" href="#">load</a>
-        </div>
--->
+            <p class="style-aside">¡Your emotion unlocked list! </p>
+            <ul id="miLista"></ul>
+        </aside>
 
     </div>
-    <style>
-        #status {
-            font-family: Geneva, Tahoma, Verdana, sans-serif;
-        }
 
-        .inline {
-            display: inline-block;
-        }
-    </style>
     <script>
         let scoreThreshold = 0.5
         let sizeType = '160'
         let modelLoaded = false
+        
+
         var cImg;
         var constraints = {
             audio: false,
             video: {
-                width: 640,
-                height: 480
+                width: 650,
+                height: 500,
             }
         };
         var EmotionModel;
@@ -95,6 +83,40 @@
         var emotion_colors = ["#ff0000", "#00a800", "#ff4fc1", "#ffe100", "#306eff", "#ff9d00", "#7c7c7c"];
 
         let forwardTimes = []
+
+        
+        var label;
+        var labelsupport;
+        const datossupport = [];
+
+        async function addItems(itsup) {
+            const lista = document.getElementById("miLista");
+            lista.innerHTML = "";
+
+            if(!datossupport.includes(itsup)){
+                datossupport.push(itsup);
+                datossupport.forEach((elemento) => {
+                    const li = document.createElement("li");
+                    li.textContent = elemento;
+                        lista.appendChild(li);
+                });
+            }
+        }
+        async function copiarValor(valor, destino) {
+        let valorActual = valor;
+        let valorAnterior = null;
+
+        while (true) {
+            await new Promise((resolve) => setTimeout(resolve, 500)); 
+
+            if (valorActual === valorAnterior) {
+                destino = valorActual;
+            }
+            valorAnterior = valorActual;
+        }
+        }
+
+
 
         function updateTimeStats(timeInMs) {
             forwardTimes = [timeInMs].concat(forwardTimes).slice(0, 30)
@@ -140,8 +162,6 @@
             console.result
 //            const result = await faceapi.tinyYolov2(videoEl, forwardParams)
             if (result.length != 0) {
-
-
                 const context = canvas.getContext('2d')
                 context.drawImage(videoEl, 0, 0, width, height)
 
@@ -167,7 +187,8 @@
 
                     z = EmotionModel.predict(cT)
                     let index = z.argMax(1).dataSync()[0]
-                    let label = emotion_labels[index];
+                    label = emotion_labels[index];
+                    
                     ctx.strokeStyle = emotion_colors[index];
                     ctx.rect(s_x, s_y, s_w, s_h);
                     ctx.stroke();
@@ -175,10 +196,9 @@
                     ctx.fillText(label, s_x, s_y);
                     ctx.closePath();
                 }
-
+                
             }
-
-
+            
             updateTimeStats(Date.now() - ts)
 
             //            faceapi.drawDetection('overlay', result.map(det => det.forSize(width, height)), {
@@ -186,7 +206,9 @@
             //            })
             setTimeout(() => onPlay(videoEl))
             var status = document.getElementById('status');
-            status.innerHTML = "Detectando emociones uwu";
+            status.innerHTML = "Explore AI at the GDSC Fest Peru and win incredible prizes";
+            copiarValor(label, labelsupport);
+            addItems(labelsupport);
         }
         async function loadNetWeights(uri) {
             return new Float32Array(await (await fetch(uri)).arrayBuffer())
@@ -198,14 +220,9 @@
         }
         // load emotion model
         async function loadModel(path) {
-            //            var lbl = document.getElementById("status");
-            //            lbl.innerText = "Model Loading ..."
-            //            let canvas = document.getElementById("combined");
-            //            let cT = preprocess(cImg)
+
             EmotionModel = await createModel(path)
-            //            z = model.predict(cT)
-            //            toPixels(deprocess(z), canvas)
-            //            lbl.innerText = "Model Loaded !"
+
         }
 
         function preprocess(imgData) {
