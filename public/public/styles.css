@@ -1,3 +1,16 @@
+.inputform {
+  width: 190px !important;
+  font-family: "Montserrat", sans-serif;
+  transition: all 0.3s;
+}
+.inputform::backdrop {
+  border-bottom: 2px solid #A6937C !important;
+}
+
+.inputform::placeholder {
+  color: #A6937C; /* Cambia el color del texto del placeholder a rojo */
+}
+
 .custom-btn {
   width: 130px;
   height: 40px;
@@ -119,14 +132,12 @@ background: radial-gradient(circle, rgb(72, 134, 206) 0%, rgb(134, 184, 245) 100
 
 #scoreboard {
   background-color: #f2f2f2;
-  padding: 20px;
+  padding: 15px;
   border-radius: 10px;
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 #score {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: bold;
 }
 
@@ -178,7 +189,7 @@ article {
   
 }
 .aside-main {
-  border: 0.6vw solid #428eff;
+  border: 0.4vw solid #428eff;
   box-shadow: inset 0 0 0 0.2vw #75acff;
   background: radial-gradient(circle,#f5f9ff 0%,white 50%,#f5f9ff 100%);
   color: #202124;
@@ -193,7 +204,7 @@ article {
   color: #fb0 !important;
 }
 .style-camera {
-  border: 10px solid #38a851;
+  border: 6px solid #38a851;
   box-shadow: inset 0 0 0 5px #4fc469;
   width: -moz-fit-content;
   width: fit-content;
@@ -251,7 +262,7 @@ article {
 }
 
 .margin {
-  margin: 30px 20px 0 20px;
+  margin: 20px 20px 0 20px;
 }
 
 .button-sm {
@@ -268,7 +279,7 @@ article {
 
 #overlay {
   position: absolute;
-  top: 0;
+  /* top: 0; */
   left: 0;
 }
 

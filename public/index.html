@@ -40,11 +40,18 @@
             </div>
         </article>
         <aside class="aside-main aside-2">
-            <p class="style-aside">¡Tu puntaje!</p>
+            <p class="style-aside">Puntuación:</p>
             <div id="scoreboard">
                 <span id="score">0</span>
             </div>
-
+            <p class="style-aside">¡Sube tu puntaje y participa!</p>
+            <form>
+                <input id="nombreInput" class="inputform" placeholder="Ingresa tu nombre ...">
+                </input>
+                <input id="emailInput" class="inputform" placeholder="Ingresa tu email ...">
+                </input>
+                <button onclick="return sendScoreFirebase()" class="custom-btn btn-6">ENVIAR</button>
+            </form>
         </aside>
         
         <aside class="aside-main aside-1">
@@ -155,6 +162,39 @@
             score = parseInt(scoreElement.textContent);
             var nuevaPuntuacion = score + morescore;
             scoreElement.textContent = nuevaPuntuacion;
+        }
+
+        function sendScoreFirebase(event) {
+            var nombre = document.getElementById('nombreInput').value;
+            var email = document.getElementById('emailInput').value;
+            const url = 'https://us-central1-gdsc-peru.cloudfunctions.net/getAssistants';
+            
+            const data= {
+                email: email,
+                score: score
+            }
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .catch(error => {
+                console.error('Error:', error);
+                });
+
+            console.log("Nombre:", nombre);
+            console.log("Email:", email);
+            score = 0;
+            const lista = document.getElementById("miLista");
+            lista.innerHTML = "";
+
+            // Borra los valores de los campos
+            document.getElementById('nombreInput').value = '';
+            document.getElementById('emailInput').value = '';
         }
 
 
