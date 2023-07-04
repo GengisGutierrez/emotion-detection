@@ -28,9 +28,10 @@
             <div class="indeterminate"></div>
         </div>
         <header>
-            <h5 id="status" class="style-header">
+            
+            <h4 id="status" class="style-header">
                 Inicializando el video ...
-            </h5>
+            </h4>
         </header>
         <article>
             <div style="position: relative;" class="margin style-camera">
@@ -164,9 +165,10 @@
             scoreElement.textContent = nuevaPuntuacion;
         }
 
-        function sendScoreFirebase(event) {
+        function sendScoreFirebase() {
             var nombre = document.getElementById('nombreInput').value;
             var email = document.getElementById('emailInput').value;
+            var dataType = "json";
             const url = 'https://us-central1-gdsc-peru.cloudfunctions.net/getAssistants';
             
             const data= {
@@ -174,25 +176,21 @@
                 score: score
             }
 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json'
+            $.ajax({
+                type:"post", 
+                url:url, 
+                data:data, 
+                success:function(data){ 
+                    console.log("Se envió "+data+" exitosamente")
                 },
-                body: JSON.stringify(data)
+                dataType: dataType 
             })
-                .then(response => response.json())
-                .catch(error => {
-                console.error('Error:', error);
-                });
 
-            console.log("Nombre:", nombre);
-            console.log("Email:", email);
             score = 0;
             const lista = document.getElementById("miLista");
             lista.innerHTML = "";
+            datossupport = [];
 
-            // Borra los valores de los campos
             document.getElementById('nombreInput').value = '';
             document.getElementById('emailInput').value = '';
         }
